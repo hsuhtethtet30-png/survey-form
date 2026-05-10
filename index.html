@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아주대학교 조직문화 설문 (OCAI)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --clan-bg:#E1F5EE; --clan:#085041;
+    --adhoc-bg:#FEF3E2; --adhoc:#633806;
+    --market-bg:#FCEBEB; --market:#791F1F;
+    --hier-bg:#EEEDFE; --hier:#3C3489;
+    --rq1:#1565A0; --rq1-bg:#D6E8F7;
+    --rq2:#1A7A4A; --rq2-bg:#D4EDD9;
+    --rq3:#8B3A8B; --rq3-bg:#EDD4ED;
+    --bg:#F7F8FA; --card:#FFFFFF;
+    --text:#1A1A2E; --sub:#6B7280; --border:#E5E7EB;
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  .hero{background:linear-gradient(135deg,#0F2044,#1A3C5E 60%,#1A5276);color:#fff;padding:44px 20px 36px;text-align:center}
+  .hero-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 14px;margin-bottom:14px;color:#A8D0F0}
+  .hero h1{font-size:clamp(20px,5vw,30px);font-weight:700;line-height:1.35;margin-bottom:8px}
+  .hero p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7}
+  .section{max-width:700px;margin:0 auto;padding:0 16px}
+  .resp-wrap{padding-top:24px}
+  .resp-label{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase}
+  .resp-btns{display:flex;gap:10px}
+  .resp-btn{flex:1;padding:12px 8px;border-radius:10px;border:2px solid var(--border);background:var(--card);font-size:14px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR',sans-serif;color:var(--sub);transition:all .18s}
+  .resp-btn.active{border-color:#1A3C5E;background:#EBF2FA;color:#1A3C5E}
+  .tip{margin-top:16px}
+  .tip-inner{background:#EAF4FB;border-left:4px solid #378ADD;border-radius:10px;padding:13px 15px;font-size:13px;color:#0C447C;line-height:1.7}
+  .legend{margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .leg-item{border-radius:10px;padding:9px 11px;font-size:12px;line-height:1.5}
+  .leg-item strong{display:block;font-size:12px;font-weight:700;margin-bottom:2px}
+  .q-wrap{margin-top:20px}
+  .q-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .q-head{padding:14px 16px 12px;background:#FAFBFC;border-bottom:1px solid var(--border)}
+  .q-meta{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .q-num{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.06em}
+  .rq-badge{font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px}
+  .q-text{font-size:15px;font-weight:700;line-height:1.6;color:var(--text)}
+  .col-head{display:grid;grid-template-columns:82px 1fr 76px 76px;border-top:1px solid var(--border)}
+  .ch{padding:6px 8px;font-size:11px;font-weight:700;color:var(--sub);text-align:center;background:#F3F4F6;border-right:1px solid var(--border)}
+  .ch:last-child{border-right:none}
+  .ch.desc{text-align:left}
+  .opt-row{display:grid;grid-template-columns:82px 1fr 76px 76px;align-items:stretch;border-top:1px solid var(--border);min-height:54px}
+  .opt-type{padding:8px 6px;text-align:center;font-size:12px;font-weight:700;line-height:1.4;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
+  .opt-desc{padding:10px 12px;font-size:13px;line-height:1.55;color:#374151;border-right:1px solid var(--border);display:flex;align-items:center}
+  .opt-inp{padding:8px 6px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
+  .opt-inp:last-child{border-right:none}
+  .inp{width:52px;height:36px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;font-weight:700;text-align:center;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:#FAFAFA;-moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+  .inp::-webkit-inner-spin-button,.inp::-webkit-outer-spin-button{-webkit-appearance:none}
+  .inp:focus{outline:none;border-color:#378ADD;box-shadow:0 0 0 3px rgba(55,138,221,.15)}
+  .tot-row{display:grid;grid-template-columns:82px 1fr 76px 76px;border-top:1px solid var(--border);background:#F9FAFB}
+  .tot-label{grid-column:1/3;padding:10px 14px;font-size:13px;font-weight:500;color:var(--sub);text-align:right;border-right:1px solid var(--border)}
+  .tot-val{padding:10px 6px;font-size:14px;font-weight:700;text-align:center;border-right:1px solid var(--border)}
+  .tot-val:last-child{border-right:none}
+  .t-ok{color:#1A7A4A}.t-over{color:#B91C1C}.t-under{color:#92400E}
+  .submit-wrap{max-width:700px;margin:32px auto 60px;padding:0 16px}
+  .submit-btn{width:100%;padding:15px;background:linear-gradient(135deg,#1A3C5E,#1565A0);color:#fff;border:none;border-radius:var(--r);font-size:16px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(21,101,160,.3);transition:opacity .18s,transform .12s}
+  .submit-btn:hover{opacity:.92;transform:translateY(-1px)}
+  .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+  .submit-note{text-align:center;font-size:12px;color:var(--sub);margin-top:10px}
+  .err{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:12px 15px;font-size:13px;color:#B91C1C;margin-top:12px;display:none;line-height:1.6}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
+  .modal-bg.show{display:flex}
+  .modal{background:#fff;border-radius:20px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+  .modal h3{font-size:20px;font-weight:700;margin-bottom:10px}
+  .modal p{font-size:14px;color:var(--sub);line-height:1.7;margin-bottom:20px}
+  .modal-close{background:#1A3C5E;color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">OCAI 기반 조직문화 설문</div>
+  <h1>아주대학교 외국인 유학생<br>소외 현상 연구</h1>
+  <p>국내 학생 / 외국인 유학생 집단 비교 연구 · 총 6문항 · 약 5분</p>
+</div>
+
+<div class="section resp-wrap">
+  <div class="resp-label">응답자 구분 *</div>
+  <div class="resp-btns">
+    <button class="resp-btn" id="btn-d" onclick="setResp('domestic')">🇰🇷 국내 학생</button>
+    <button class="resp-btn" id="btn-i" onclick="setResp('intl')">🌏 외국인 유학생</button>
+  </div>
+</div>
+
+<div class="section tip">
+  <div class="tip-inner">
+    <strong>작성 방법</strong> — 각 문항에서 4가지 유형에 <strong>현재</strong>와 <strong>선호</strong> 각각 합계 100점이 되도록 점수를 나눠 입력하세요.<br>
+    예시: 공동체형 40 / 혁신형 30 / 성과형 20 / 위계형 10 → 합계 100점
+  </div>
+</div>
+
+<div class="section legend">
+  <div class="leg-item" style="background:var(--rq1-bg)"><strong style="color:var(--rq1)">연구문제 1</strong>구조적 인공물 · 조직 경계</div>
+  <div class="leg-item" style="background:var(--rq2-bg)"><strong style="color:var(--rq2)">연구문제 2</strong>비공식 사회화 · 정체성</div>
+  <div class="leg-item" style="background:var(--rq3-bg)"><strong style="color:var(--rq3)">연구문제 3</strong>학생 자치 · 무의식적 배제</div>
+</div>
+
+<!-- Q1 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="1">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q1</span><span class="rq-badge" style="background:var(--rq1-bg);color:var(--rq1)">연구문제 1</span></div>
+      <div class="q-text">아주대에서 유학생과 국내 학생이 같은 수업을 함께 듣는 경우가 어느 정도인가요? / 앞으로 어떻게 바뀌면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">전공 수업 대부분을 함께 들으며 자연스럽게 섞인다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">일부 수업에서는 함께 듣지만, 선택은 개인에게 달려 있다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">언어 수준이나 이수 요건이 달라 자연히 분리된다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">학교 제도상 유학생 전용 강좌로 분리되어 있다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q1-now">0/100</div><div class="tot-val t-under" id="q1-pref">0/100</div></div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="2">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q2</span><span class="rq-badge" style="background:var(--rq1-bg);color:var(--rq1)">연구문제 1</span></div>
+      <div class="q-text">학교가 운영하는 교류 프로그램(아주 글로벌 버디 등)이 유학생과 국내 학생의 관계에 어떤 영향을 주나요? / 앞으로 어떻게 바뀌면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">프로그램 덕분에 친밀하게 어울리는 계기가 생긴다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">다양한 채널이 마련되어 원하면 얼마든지 교류할 수 있다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">언어 교환 등 실용적 목적에 한해 교류가 이루어진다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">공식 프로그램 외에는 교류 접점이 거의 없다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q2-now">0/100</div><div class="tot-val t-under" id="q2-pref">0/100</div></div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="3">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q3</span><span class="rq-badge" style="background:var(--rq2-bg);color:var(--rq2)">연구문제 2</span></div>
+      <div class="q-text">동아리·소모임 활동에서 유학생과 국내 학생이 실제로 어떻게 어울리나요? / 앞으로 어떻게 달라지면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">같은 멤버로 자연스럽게 섞여 활동한다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">유학생이 새로운 아이디어를 가져오고 환영받는다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">실력·기여도 중심으로 역할이 나뉘고, 국적은 크게 상관없다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">언어·문화 차이로 유학생은 참여하기 어려운 분위기다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q3-now">0/100</div><div class="tot-val t-under" id="q3-pref">0/100</div></div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="4">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q4</span><span class="rq-badge" style="background:var(--rq2-bg);color:var(--rq2)">연구문제 2</span></div>
+      <div class="q-text">식사·뒷풀이·스터디 등 수업 외 일상에서 유학생과 국내 학생이 함께 어울리는 편인가요? / 앞으로 어떻게 되면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">자주 함께 어울리며 친밀한 관계를 유지한다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">개인 성향에 따라 자유롭게 어울린다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">공통 목표(시험·과제)가 있을 때만 모인다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">유학생끼리, 국내 학생끼리 따로 모이는 편이다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q4-now">0/100</div><div class="tot-val t-under" id="q4-pref">0/100</div></div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="5">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q5</span><span class="rq-badge" style="background:var(--rq3-bg);color:var(--rq3)">연구문제 3</span></div>
+      <div class="q-text">학생회 공약·활동 계획에 유학생 관련 내용이 얼마나 포함되나요? / 앞으로 어떻게 포함되면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">유학생을 포함한 전체 구성원을 고려한 공약이 자주 등장한다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">유학생 관련 새로운 아이디어가 자발적으로 제안되기도 한다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">성과 위주라 유학생 관련 공약은 우선순위에서 밀린다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">기존 관례대로 진행되고, 유학생 관련 내용은 거의 다뤄지지 않는다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q5-now">0/100</div><div class="tot-val t-under" id="q5-pref">0/100</div></div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="section q-wrap">
+  <div class="q-card" data-q="6">
+    <div class="q-head">
+      <div class="q-meta"><span class="q-num">Q6</span><span class="rq-badge" style="background:var(--rq3-bg);color:var(--rq3)">연구문제 3</span></div>
+      <div class="q-text">학생 자치 활동에서 '학생'이라는 말이 떠올리는 이미지는 어떤가요? / 앞으로 어떤 의미로 쓰이면 좋겠나요?</div>
+    </div>
+    <div class="col-head"><div class="ch"></div><div class="ch desc">설명</div><div class="ch">현재</div><div class="ch">선호</div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--clan-bg);color:var(--clan)">공동체형</div><div class="opt-desc">국내·외국인 모두를 포함한 아주대 구성원 전체</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--adhoc-bg);color:var(--adhoc)">혁신형</div><div class="opt-desc">다양한 배경을 가진 개인들의 집합</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--market-bg);color:var(--market)">성과형</div><div class="opt-desc">학점·취업 등 비슷한 목표를 가진 집단</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="opt-row"><div class="opt-type" style="background:var(--hier-bg);color:var(--hier)">위계형</div><div class="opt-desc">주로 한국어를 쓰는 국내 학생이 먼저 떠오른다</div><div class="opt-inp"><input class="inp now" type="number" min="0" max="100" placeholder="0"></div><div class="opt-inp"><input class="inp pref" type="number" min="0" max="100" placeholder="0"></div></div>
+    <div class="tot-row"><div class="tot-label">합계</div><div class="tot-val t-under" id="q6-now">0/100</div><div class="tot-val t-under" id="q6-pref">0/100</div></div>
+  </div>
+</div>
+
+<div class="submit-wrap">
+  <button class="submit-btn" onclick="submitSurvey()">설문 제출하기 →</button>
+  <div class="err" id="err"></div>
+  <p class="submit-note">본 설문은 학술 연구 목적으로만 사용되며, 응답 내용은 익명으로 처리됩니다.</p>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div style="font-size:44px;margin-bottom:12px">🎉</div>
+    <h3>응답 완료!</h3>
+    <p>소중한 응답 감사드립니다.<br>아주대학교 조직문화 연구에 큰 도움이 됩니다.</p>
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('show')">확인</button>
+  </div>
+</div>
+
+<script>
+// ✅ 여기에 Google Apps Script 웹앱 URL을 붙여넣으세요
+const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+let resp = null;
+function setResp(t){
+  resp=t;
+  document.getElementById('btn-d').classList.toggle('active',t==='domestic');
+  document.getElementById('btn-i').classList.toggle('active',t==='intl');
+}
+
+document.querySelectorAll('.q-card').forEach(card=>{
+  const q = card.dataset.q;
+  card.querySelectorAll('.inp').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      ['now','pref'].forEach(type=>{
+        const inputs = card.querySelectorAll('.inp.'+type);
+        let sum=0; inputs.forEach(i=>sum+=parseInt(i.value||0));
+        const el=document.getElementById('q'+q+'-'+type);
+        el.textContent=sum+'/100';
+        el.className='tot-val '+(sum===100?'t-ok':sum>100?'t-over':'t-under');
+      });
+    });
+  });
+});
+
+const TYPES=['공동체형','혁신형','성과형','위계형'];
+const QNAMES={1:'수업구성',2:'교류프로그램',3:'동아리',4:'일상접점',5:'학생회공약',6:'학생이미지'};
+
+async function submitSurvey(){
+  const errEl=document.getElementById('err');
+  errEl.style.display='none';
+  if(!resp){
+    errEl.textContent='⚠ 응답자 구분을 선택해주세요.';
+    errEl.style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  const bad=[];
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const q=card.dataset.q;
+    ['now','pref'].forEach(type=>{
+      const inputs=card.querySelectorAll('.inp.'+type);
+      let s=0; inputs.forEach(i=>s+=parseInt(i.value||0));
+      if(s!==100) bad.push('Q'+q+'-'+type);
+    });
+  });
+  if(bad.length){
+    errEl.textContent=`⚠ 합계가 100점이 아닌 항목이 ${bad.length}개 있어요. 확인 후 다시 제출해주세요.`;
+    errEl.style.display='block';
+    return;
+  }
+
+  // 데이터 수집
+  const data = { 응답자구분: resp==='domestic'?'국내학생':'외국인유학생', 제출시간: new Date().toLocaleString('ko-KR') };
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const q=card.dataset.q;
+    ['now','pref'].forEach(type=>{
+      const label='Q'+q+'_'+(type==='now'?'현재':'선호')+'_'+QNAMES[q];
+      const inputs=card.querySelectorAll('.inp.'+type);
+      inputs.forEach((inp,i)=>{ data[label+'_'+TYPES[i]]=inp.value||'0'; });
+    });
+  });
+
+  const btn=document.querySelector('.submit-btn');
+  btn.textContent='제출 중...'; btn.disabled=true;
+
+  try{
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    // no-cors 모드에서는 응답 확인 불가 → 성공으로 간주
+    document.getElementById('modal').classList.add('show');
+    btn.textContent='제출 완료 ✓';
+  }catch(e){
+    errEl.textContent='⚠ 제출 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.';
+    errEl.style.display='block';
+    btn.textContent='설문 제출하기 →'; btn.disabled=false;
+  }
+}
+</script>
+</body>
+</html>
